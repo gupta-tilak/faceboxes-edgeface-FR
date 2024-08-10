@@ -38,7 +38,7 @@ The performance of each EdgeFace models is reported in Table 2 of the [paper](ht
 
 Comparison of FaceBoxes with other edge efficient detection models is reported in the below table:
 
-![performance](assets/FaceBoxesArch.png)
+![performance](assets/faceboxes.png)
 
 ## Reference
 The EdgeFace model have been used from the research work mentioned in the paper [published](https://ieeexplore.ieee.org/abstract/document/10388036/) in the IEEE Transactions on Biometrics, Behavior, and Identity Science (IEEE T-BIOM). The PDF version of the paper is available as [pre-print on arxiv](https://arxiv.org/pdf/2307.01838v2.pdf). The complete source code for reproducing all experiments in the paper (including training and evaluation) is also publicly available in the [official repository](https://gitlab.idiap.ch/bob/bob.paper.tbiom2023_edgeface).
