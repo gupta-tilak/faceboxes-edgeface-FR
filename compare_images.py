@@ -9,12 +9,12 @@ model_name = "edgeface_s_gamma_05"  # or "edgeface_xs_gamma_06"
 model = load_model(model_name)
 
 # Define image paths
-image1_path = 'images/Aisvarrya_8.jpeg'
-image2_path = 'images/Aisvarrya_9.jpeg'
+image1_path = 'images/RahulAwasthy_2.jpeg'
+image2_path = 'images/Rajath_14.jpg'
 
 # Extract embeddings using the function from the external module
-embedding1 = extract_embedding(model, image1_path, 'weights/FaceBoxes.pth')
-embedding2 = extract_embedding(model, image2_path, 'weights/FaceBoxes.pth')
+embedding1 = extract_embedding(model, image1_path, face_model='weights/FaceBoxes.pth')
+embedding2 = extract_embedding(model, image2_path, face_model='weights/FaceBoxes.pth')
 
 if embedding1 is not None and embedding2 is not None:
     # Compute cosine similarity

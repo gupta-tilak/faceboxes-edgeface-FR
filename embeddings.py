@@ -20,16 +20,16 @@ def extract_embedding(model, image_path, face_model, device='cpu'):
     ])
     
     # Detect face and align
-    aligned = detect_faces(image_path, trained_model=face_model, cpu=True, 
+    detected_face = detect_faces(image_path, trained_model='weights/FaceBoxes.pth', cpu=True, 
                            confidence_threshold=0.05, top_k=5000, nms_threshold=0.3,
                            keep_top_k=750, vis_thres=0.5)
     
-    if aligned is None:
-        print(f"Face alignment failed for image: {image_path}")
+    if detected_face is None:
+        print(f"Face detection failed for image: {image_path}")
         return None
     
     # Preprocess and add batch dimension
-    transformed_input = transform(aligned).unsqueeze(0).to(device)
+    transformed_input = transform(detected_face).unsqueeze(0).to(device)
     
     # Extract embedding
     with torch.no_grad():
