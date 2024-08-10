@@ -18,7 +18,7 @@ which is the **winning entry** in *the compact track of ["EFaR 2023: Efficient F
 
 ![EdgeFace](assets/edgeface.png)
 
-![FaceBoxes](assets/FaceBoxes.png)
+![FaceBoxes](assets/FaceBoxesArch.png)
 
 
 ## Installation
