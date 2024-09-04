@@ -8,10 +8,11 @@ from compare_images import compare_images
 from tqdm import tqdm
 
 # Load the CSV file
-csv_path = '/Users/guptatilak/Documents/C4GT-Face-Recognition/Dataset/Indian Faces Image Classification/test_combinations.csv'
+csv_path = '/Users/guptatilak/Documents/C4GT-Face-Recognition/Dataset/An Indian facial database highlighting the Spectacle 2/Version 2/test_combinations_without_specs.csv'
 data = pd.read_csv(csv_path)
+n_pairs = 5000
 
-data = data.sample(100)
+data = data.sample(n_pairs)
 
 # Function to check illumination in the image
 def check_illumination(filename):
@@ -53,7 +54,7 @@ time_gaussian = []
 cpu_memory_usage = []
 ram_usage = []
 
-for index, row in tqdm(data.head(100).iterrows(), total=100, desc=task):
+for index, row in tqdm(data.head(n_pairs).iterrows(), total=n_pairs, desc=task):
     img1_target = row['img1_path']
     img2_target = row['img2_path']
     truth_value = row['truth_value']

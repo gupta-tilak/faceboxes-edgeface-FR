@@ -129,6 +129,6 @@ def detect_faces(image_path):
     return cropped_faces
 
 if __name__ == '__main__':
-    image_path = '/Users/guptatilak/Documents/C4GT-Face-Recognition/Dataset/An Indian facial database highlighting the Spectacle 2/Version 2/test-data/s01_image_2.jpg'  # Change this to the path of the image you want to test
+    image_path = '/Users/guptatilak/Downloads/demo.jpg'  # Change this to the path of the image you want to test
     cropped_faces = detect_faces(image_path)
     print(f'{len(cropped_faces)} face(s) detected.')

@@ -1,10 +1,8 @@
+from typing import Union
 import torch
 import numpy as np
-from embeddings import load_model, extract_embedding
-from typing import Union
 
 # Distance Measuring Functions
-
 def find_cosine_distance(
     source_representation: Union[np.ndarray, list], test_representation: Union[np.ndarray, list]
 ) -> np.float64:
@@ -23,8 +21,8 @@ def find_cosine_distance(
         test_representation = np.array(test_representation)
 
     # Flatten the arrays to ensure they are 1D
-    source_representation = source_representation.flatten()
-    test_representation = test_representation.flatten()
+    source_representation = source_representation
+    test_representation = test_representation
 
     a = np.dot(source_representation, test_representation)
     b = np.linalg.norm(source_representation)
@@ -92,17 +90,14 @@ def find_distance(
         raise ValueError("Invalid distance_metric passed - ", distance_metric)
     return distance
 
-
 # Compare Images Function
-def compare_images(image1_path, image2_path, model_name="edgeface_s_gamma_05", face_model='weights/FaceBoxes.pth', distance_metric="euclidean"):
+def compare_embeddings(embedding1, embedding2, distance_metric="cosine"):
     """
     Compare two images by calculating the distance between their embeddings.
     
     Args:
-        image1_path (str): Path to the first image.
-        image2_path (str): Path to the second image.
-        model_name (str): Name of the model to use for extracting embeddings.
-        face_model (str): Path to the face detection model weights.
+        embedding1 (str): Embedding of the first image.
+        embedding2 (str): Embedding of second image.
         distance_metric (str): Metric to calculate distance ("cosine", "euclidean", "euclidean_l2").
     
     Returns:
@@ -110,58 +105,20 @@ def compare_images(image1_path, image2_path, model_name="edgeface_s_gamma_05", f
                                        or None if embeddings couldn't be computed.
     """
     try:
-        # Load the model
-        model = load_model(model_name)
-        
-        # Extract embeddings using the function from the external module
-        embedding1 = extract_embedding(model, image1_path, face_model=face_model)
-        embedding2 = extract_embedding(model, image2_path, face_model=face_model)
 
         if embedding1 is not None and embedding2 is not None:
-            # Convert embeddings to numpy arrays if they are PyTorch tensors
-            if isinstance(embedding1, torch.Tensor):
-                embedding1 = embedding1.detach().cpu().numpy()
-            if isinstance(embedding2, torch.Tensor):
-                embedding2 = embedding2.detach().cpu().numpy()
-
+            # # Convert embeddings to numpy arrays if they are PyTorch tensors
+            # if isinstance(embedding1, torch.Tensor):
+            #     embedding1 = embedding1.detach().cpu().numpy()
+            # if isinstance(embedding2, torch.Tensor):
+            #     embedding2 = embedding2.detach().cpu().numpy()
+            
             # Compute the distance using the chosen metric
             distance = find_distance(embedding1, embedding2, distance_metric)
             return distance
         else:
-            raise ValueError("Failed to compute embeddings for one or both images.")
+            raise ValueError("Failed to compute distances between embeddings for one or both images.")
     
     except ValueError as e:
         print(f"Error: {e}")
         return None
-
-def save_embeddings_to_csv(embeddings, user_id, file_path):
-    """
-    Saves embeddings along with the user ID into a CSV file.
-    
-    Args:
-        embeddings (np.ndarray): The embeddings to save.
-        user_id (str): The identifier for the user.
-        file_path (str): The path to the CSV file where embeddings will be saved.
-    """
-    with open(file_path, mode='a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([user_id] + embeddings.tolist())
-
-def calculate_max_cosine_similarity(template_embeddings, test_embedding):
-    """
-    Calculates the maximum cosine similarity between the template embeddings and the test embedding.
-    
-    Args:
-        template_embeddings (list of np.ndarray): List of template embeddings.
-        test_embedding (np.ndarray): The test embedding.
-    
-    Returns:
-        max_similarity (float): The maximum cosine similarity value.
-    """
-    max_similarity = -1
-    for template_embedding in template_embeddings:
-        similarity = 1 - find_cosine_distance(template_embedding, test_embedding)
-        if similarity > max_similarity:
-            max_similarity = similarity
-    return max_similarity
-    
